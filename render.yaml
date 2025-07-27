@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: n8n
+    env: node
+    region: oregon
+    buildCommand: NODE_OPTIONS="--max-old-space-size=3072" pnpm install --frozen-lockfile && NODE_OPTIONS="--max-old-space-size=3072" pnpm run build:frontend && cd packages/cli && NODE_OPTIONS="--max-old-space-size=2048" pnpm build
+    startCommand: cd packages/cli/bin && ./n8n start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=2048"
+      - key: WEBHOOK_URL
+        value: https://n8nyesedev.onrender.com
+      - key: N8N_HOST
+        value: 0.0.0.0
+      - key: N8N_PORT
+        value: 10000
+      - key: N8N_PROTOCOL
+        value: https
+      - key: N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN
+        value: true
+      - key: UV_THREADPOOL_SIZE
+        value: "2"
+      - key: N8N_DIAGNOSTICS_ENABLED
+        value: false
+      - key: N8N_DISABLE_PRODUCTION_MAIN_PROCESS
+        value: true
+    autoDeploy: false

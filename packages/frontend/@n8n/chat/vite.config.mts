@@ -112,7 +112,18 @@ export default mergeConfig(
 								vue: 'Vue',
 							},
 				},
+				// Optimize memory usage during build
+				maxParallelFileOps: 2,
 			},
+			// Optimize build for memory constraints
+			minify: 'terser',
+			terserOptions: {
+				compress: {
+					drop_console: true,
+					drop_debugger: true,
+				},
+			},
+			chunkSizeWarningLimit: 1000,
 		},
 	}),
 	vitestConfig,
